@@ -14,8 +14,6 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - productUrl=http://Springboot_Product:8081/api/Product
       - customerUrl=http://Springboot_Customer:8082/api/Customer
-    networks:
-      - host
 
   Springboot_Customer:
     image: 'java-customer'
