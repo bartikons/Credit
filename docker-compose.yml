@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   Springboot_credit:
-    image: 'credit'
+    image: credit:1
     ports:
       - "8080:8080"
     depends_on:
@@ -16,7 +16,7 @@ services:
       - customerUrl=http://gateway.docker.internal:8082/api/Customer
 
   Springboot_Customer:
-    image: 'customer'
+    image: customer:1
     ports:
       - "8082:8080"
     depends_on:
@@ -29,7 +29,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   Springboot_Product:
-    image: 'product'
+    image: product:1
     ports:
       - "8081:8080"
     depends_on:
@@ -42,7 +42,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   PostgreSQL:
-    image: postgres
+    image: postgres:bullseye
     ports:
       - "5432:5432"
     environment:

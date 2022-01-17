@@ -11,12 +11,14 @@ import com.springboot.credit.credit.dto.ProductDto;
 import com.springboot.credit.credit.model.Credit;
 import com.springboot.credit.credit.repository.CreditRepository;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,7 +82,8 @@ public class CreditService {
 
     private ProductDto getProductInfo(Integer crediId) throws IOException {
         HttpResponse response = sendRequest(urlProduct, crediId);
-        return gson.fromJson(response.getEntity().toString(), ProductDto.class);
+        HttpEntity entity = response.getEntity();
+        return gson.fromJson(EntityUtils.toString(entity, "UTF-8"), ProductDto.class);
 
     }
 
@@ -91,7 +94,8 @@ public class CreditService {
 
     private CustomerDto getCustomerInfo(Integer crediId) throws IOException {
         HttpResponse response = sendRequest(urlCustomer, crediId);
-        return gson.fromJson(response.getEntity().toString(), CustomerDto.class);
+        HttpEntity entity = response.getEntity();
+        return gson.fromJson(EntityUtils.toString(entity, "UTF-8"), CustomerDto.class);
     }
 
     private HttpResponse createCustomer(CustomerDto customerDto) throws IOException {
@@ -99,13 +103,11 @@ public class CreditService {
     }
 
     private HttpResponse sendRequest(String postUrl, Object requestData) throws IOException {
-
-        StringEntity postingString = new StringEntity(gson.toJson(requestData));
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpUriRequest post = requestData instanceof Integer
-                ? RequestBuilder.get(postUrl + "creditId=" + postingString)
+                ? RequestBuilder.get(postUrl + "?creditId=" + requestData)
                         .build()
-                : RequestBuilder.post(postUrl).setEntity(postingString)
+                : RequestBuilder.post(postUrl).setEntity(new StringEntity(gson.toJson(requestData)))
                         .setHeader("Content-type", "application/json")
                         .build();
         return httpClient.execute(post);

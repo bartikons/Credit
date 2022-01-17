@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.springboot.customer</groupId>
 	<artifactId>customer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>customer</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -79,6 +79,28 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>credit-build</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>				
+							<executable>mvnw.cmd</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>spring-boot:build-image</argument>
+								<argument>-DskipTests</argument>
+							</arguments>
+						</configuration>
+    				</execution>
+    			</executions>
+			</plugin>			
 		</plugins>
 	</build>
 	<repositories>
