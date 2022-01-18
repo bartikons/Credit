@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - postgresql-claim0-persistentvolumeclaim.yaml
+  - postgresql-deployment.yaml
+  - postgresql-service.yaml
+  - Springboot_credit-service.yaml
+  - Springboot-credit-deployment.yaml
+  - Springboot-customer-deployment.yaml
+  - Springboot_Customer-service.yaml
+  - Springboot-product-deployment.yaml
+  - Springboot_product-service.yaml

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: F:\Credit — kopia\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  labels:
+    io.kompose.service: postgresql
+  name: postgresql
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      io.kompose.service: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: F:\Credit — kopia\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      labels:
+        io.kompose.service: postgresql
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_USER
+              value: postgres
+          image: postgres:alpine3.15
+          name: postgresql
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: "4"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresql-claim0
+      restartPolicy: Always
+      volumes:
+        - name: postgresql-claim0
+          persistentVolumeClaim:
+            claimName: postgresql-claim0
+status: {}

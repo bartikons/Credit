@@ -1,0 +1,1 @@
+.\mvnw install -DskipTests && .\kustomize build . | kubectl apply -f -
